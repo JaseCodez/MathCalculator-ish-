@@ -51,10 +51,61 @@ def transpose(matrix: list[list[int]]) -> list[list[int]]:
 
 
 # Matrix multiplication
-def matrix_mult(mx1: list[list[int]], mx2: list[list[int]]) -> list[list[int]]:
+def matrix_mult(mtrx1: list[list[int]], mtrx2: list[list[int]]) -> list[list[int]]:
+    # TODO: Ignoring the checking if the inputs are valid matrix
+    if len(mtrx1[0]) != len(mtrx2):
+        raise AttributeError
+    new_mtrx = []
+    new_mtrx2 = transpose(mtrx2)
+    for row1 in mtrx1:
+        tmp = []
+        for row2 in new_mtrx2:
+            i = 0
+            num = 0
+            while i < len(row1):
+                num += row1[i] * row2[i]
+                i += 1
+            tmp.append(num)
+        new_mtrx.append(tmp)
+    return new_mtrx
+
+
+def scale_matrix(scaler: int, matrix: list[list[int]]) -> list[list[int]]:
+    new_matrix = []
+    for row in matrix:
+        tmp = []
+        for col in row:
+            tmp.append(col * scaler)
+        new_matrix.append(tmp)
+    return new_matrix
+
+
+def scale_vector(scaler: int, vector: list[int]) -> list[int]:
+    new_vect = []
+    for i in vector:
+        new_vect.append(i * scaler)
+    return new_vect
+
+
+def dot_product(v1: list[int], v2: list[int]) -> int:
+    # TODO: Ignore bad inputs lmao
+    num = 0
+    for i in range(len(v1)):
+        num += v1[i] * v2[i]
+    return num
+
+
+def projection(vector: list[int], onto_vector: list[int]) -> list[int]:
     pass
 
 
-def RREF(matrix: list[list[int]]) -> list[list[int]]:
+def magnitude(vector: list[int]) -> int:
+    num = 0
+    for i in vector:
+        num += i**2
+    return int(num ** 0.5)
+
+
+def rref(matrix: list[list[int]]) -> list[list[int]]:
     pass
 
