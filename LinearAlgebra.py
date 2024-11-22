@@ -95,9 +95,12 @@ def dot_product(v1: list[int], v2: list[int]) -> int:
     return num
 
 
-def projection(vector: list[int], onto_vector: list[int]) -> list[int]:
-    pass
-
+def projection(base: list[int], vect: list[int]) -> list[int]:
+    dot = dot_product(base, vect)
+    mag = magnitude(base)**2
+    scale = dot//mag
+    return [x * scale for x in base]
+    
 
 def magnitude(vector: list[int]) -> int:
     num = 0
