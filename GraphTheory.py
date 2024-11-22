@@ -132,6 +132,14 @@ def is_simple_graph(graph: Graph) -> bool:
     return True
 
 
+def is_a_K_graph(graph: Graph) -> bool:
+    return len(complement_graph(graph).edges) == 0
+    
+def is_cycle_graph(graph: Graph) -> bool:
+    for vertice in graph.vertices:
+        if vertice.degree != 2: 
+            return False
+    return is_connect_graph(graph)
 
 v1 = Vertice(0, "u")
 v2 = Vertice(1, "v")
