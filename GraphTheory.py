@@ -60,10 +60,9 @@ def exist_a_path(start: Vertice, end: Vertice, graph: Graph) -> bool:
             elif other_vert.index == edge.v1.index and other_vert.degree == len(visited[other_vert.index]):
                 return False
 
-        n = 0
+        degree = 0
         for key in visited:
-            n += len(visited[key])
-        degree = n
+            degree += len(visited[key])
 
     return False
 
@@ -141,6 +140,10 @@ def is_cycle_graph(graph: Graph) -> bool:
         if vertice.degree != 2: 
             return False
     return is_connected_graph(graph)
+
+
+def is_bipartite(graph: Graph) -> bool:
+    pass
 
 
 if __name__ == '__main__':

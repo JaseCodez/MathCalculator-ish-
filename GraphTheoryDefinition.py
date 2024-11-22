@@ -31,6 +31,8 @@ class Edge:
     def __init__(self, v1: Vertice, v2: Vertice):
         self.v1 = v1
         self.v2 = v2
+        self.v1.add_degree(1)
+        self.v2.add_degree(1)
 
     def __eq__(self: Edge, other: Edge):
         non_sym = self.v1.index == other.v1.index and self.v2.index == other.v2.index
@@ -83,7 +85,7 @@ class Graph:
     def __init__(self, vertices: list[Vertice], edges: list[Edge]):
         self.vertices = vertices.copy()
         self.edges = edges.copy()
-        self._set_degrees()
+        self.sort()
 
     def sort(self):
         self.vertices = merge_sort(self.vertices)
@@ -91,13 +93,7 @@ class Graph:
     def degree_sum(self) -> int:
         return 2 * len(self.edges)
 
-    def _set_degrees(self) -> None:
-        for v in self.vertices:
-            for edge in self.edges:
-                if v.index == edge.v1.index:
-                    v.add_degree(1)
-                if v.index == edge.v2.index:
-                    v.add_degree(1)
+
 
 
 
