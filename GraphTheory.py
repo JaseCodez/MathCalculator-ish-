@@ -134,22 +134,22 @@ def is_simple_graph(graph: Graph) -> bool:
 
 def is_a_K_graph(graph: Graph) -> bool:
     return len(complement_graph(graph).edges) == 0
-    
+
+
 def is_cycle_graph(graph: Graph) -> bool:
     for vertice in graph.vertices:
         if vertice.degree != 2: 
             return False
-    return is_connect_graph(graph)
+    return is_connected_graph(graph)
 
-v1 = Vertice(0, "u")
-v2 = Vertice(1, "v")
-v3 = Vertice(2, '3')
-v4 = Vertice(4, 'k')
-vertices = [v3, v1, v2, v4]
-edges = [Edge(v1, v2), Edge(v2, v3), Edge(v3, v4), Edge(v4, v1)]
-g1 = Graph(vertices, edges)
 
-edges = [Edge(v1, v2), Edge(v2, v3), Edge(v3, v4), Edge(v4, v1), Edge(v1, v3), Edge(v4, v2)]
-g2 = Graph(vertices, edges)
+if __name__ == '__main__':
+    v1 = Vertice(0, "u")
+    v2 = Vertice(1, "v")
+    v3 = Vertice(2, '3')
+    v4 = Vertice(4, 'k')
+    vertices = [v3, v1, v2, v4]
+    edges = [Edge(v1, v2), Edge(v2, v3), Edge(v3, v4), Edge(v4, v1)]
+    g1 = Graph(vertices, edges)
 
-print(is_simple_graph(g2))
+    print(is_cycle_graph(g1))
