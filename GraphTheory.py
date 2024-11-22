@@ -96,16 +96,52 @@ def complement_graph(graph: Graph) -> Graph:
     return new_graph
 
 
+def is_euclidean(graph: Graph) -> bool:
+    for vertice in graph.vertices:
+        if vertice.degree % 2 != 0:
+            return False
+    return is_connected_graph(graph)
+
+
+def is_subgraph(sub: Graph, parent: Graph) -> bool:
+    for v in sub.vertices:
+        if not is_a_vertice(v, parent.vertices):
+            return False
+    for edge in sub.edges:
+        if not is_an_edge(edge, parent.edges):
+            return False
+    return True
+
+
+def is_a_vertice(vertice: Vertice, vertices: list[Vertice]) -> bool:
+    for v in vertices:
+        if vertice == v:
+            return True
+    return False
+
+
+def is_simple_graph(graph: Graph) -> bool:
+    lst = []
+    for edge in graph.edges:
+        if edge.v1.index == edge.v2.index:
+            return False
+        if not is_an_edge(edge, lst):
+            lst.append(edge)
+        else:
+            return False
+    return True
+
+
 
 v1 = Vertice(0, "u")
 v2 = Vertice(1, "v")
 v3 = Vertice(2, '3')
 v4 = Vertice(4, 'k')
-v5 = Vertice(5, 'a')
-v6 = Vertice(6, 'p')
 vertices = [v3, v1, v2, v4]
 edges = [Edge(v1, v2), Edge(v2, v3), Edge(v3, v4), Edge(v4, v1)]
-g = Graph(vertices, edges)
+g1 = Graph(vertices, edges)
 
-complement = complement_graph(g)
-print(is_connected_graph(complement))
+edges = [Edge(v1, v2), Edge(v2, v3), Edge(v3, v4), Edge(v4, v1), Edge(v1, v3), Edge(v4, v2)]
+g2 = Graph(vertices, edges)
+
+print(is_simple_graph(g2))

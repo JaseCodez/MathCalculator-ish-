@@ -20,6 +20,9 @@ class Vertice:
     def get_degree(self) -> int:
         return self.degree
 
+    def __eq__(self, other):
+        return self.index == other.index and self.name == other.name
+
 
 class Edge:
     v1: Vertice
