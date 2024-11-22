@@ -1,5 +1,6 @@
 """
 Author: Jason Phan
+Does some graph stuff
 Another silly program
 """
 from GraphTheoryDefinition import Graph, Vertice, Edge
