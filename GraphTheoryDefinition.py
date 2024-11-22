@@ -49,6 +49,14 @@ def merge_sort(lst: list[Vertice]):
     return merge(left, right)
 
 
+class WeightedEdge(Edge):
+    weight: int
+
+    def __init__(self, v1: Vertice, v2: Vertice, weight: int):
+        Edge.__init__(v1, v2)
+        self.weight = weight
+
+
 def merge(lst1: list[Vertice], lst2: list[Vertice]) -> list:
     i = 0
     x = 0
