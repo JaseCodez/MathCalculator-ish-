@@ -20,6 +20,22 @@ def graph_to_matrix(graph: Graph) -> list[list[int]]:
     return matrix
 
 
+def matrix_to_graph(matrix: list[list[int]]) -> Graph:
+    vertices = []
+    for i in range(len(matrix)):
+        vertices.append(Vertice(i, "v" + str(i + 1)))
+
+    edges = []
+    for i in range(len(matrix)):
+        # Since the matrix is symmetric
+        # we only need to look at the upper triangle
+        for x in range(len(matrix[i][i:])):
+
+            if matrix[i][i:][x] == 1:
+                edges.append(Edge(vertices[i], vertices[x + i]))
+    return Graph(vertices, edges)
+
+
 def is_an_edge(e: Edge, edges: list[Edge]) -> bool:
     for edge in edges:
         if e == edge:
@@ -147,12 +163,13 @@ def is_bipartite(graph: Graph) -> bool:
 
 
 if __name__ == '__main__':
-    v1 = Vertice(0, "u")
+    v1 = Vertice(2, "u")
     v2 = Vertice(1, "v")
-    v3 = Vertice(2, '3')
-    v4 = Vertice(4, 'k')
+    v3 = Vertice(4, '3')
+    v4 = Vertice(3, 'k')
     vertices = [v3, v1, v2, v4]
-    edges = [Edge(v1, v2), Edge(v2, v3), Edge(v3, v4), Edge(v4, v1)]
+    edges = [Edge(v1, v2), Edge(v3, v4), Edge(v2, v3), Edge(v1, v4)]
     g1 = Graph(vertices, edges)
 
-    print(is_cycle_graph(g1))
+    print(graph_to_matrix(g1))
+    print(graph_to_matrix(matrix_to_graph(graph_to_matrix(g1))))
