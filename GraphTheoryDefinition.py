@@ -23,6 +23,10 @@ class Vertice:
     def __eq__(self, other):
         return self.index == other.index and self.name == other.name
 
+    def clone(self) -> Vertice:
+        """Avoid aliasing"""
+        return Vertice(self.index, self.name)
+
 
 class Edge:
     v1: Vertice

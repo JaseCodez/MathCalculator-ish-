@@ -14,7 +14,7 @@ def graph_to_matrix(graph: Graph) -> list[list[int]]:
     for i in range(len(graph.vertices)):
         row = []
         for x in range(len(graph.vertices)):
-            if is_an_edge(Edge(graph.vertices[i], graph.vertices[x]), graph.edges):
+            if is_an_edge(Edge(graph.vertices[i].clone(), graph.vertices[x].clone()), graph.edges):
                 row.append(1)
             else:
                 row.append(0)
@@ -34,7 +34,7 @@ def matrix_to_graph(matrix: list[list[int]]) -> Graph:
         for x in range(len(matrix[i][i:])):
 
             if matrix[i][i:][x] == 1:
-                edges.append(Edge(vertices[i], vertices[x + i]))
+                edges.append(Edge(vertices[i].clone(), vertices[x + i].clone()))
     return Graph(vertices, edges)
 
 
@@ -106,7 +106,7 @@ def complement_graph(graph: Graph) -> Graph:
     new_edges = []
     for v1 in graph.vertices:
         for v2 in graph.vertices:
-            new_edge = Edge(v1, v2)
+            new_edge = Edge(v1.clone(), v2.clone())
             if (new_edge.v1 is not new_edge.v2) and not is_an_edge(new_edge, edges):
                 new_edges.append(new_edge)
     new_graph.edges = new_edges.copy()
@@ -201,7 +201,7 @@ def jason_shortest_path_algorithm(start: Vertice, end: Vertice, graph: Graph) ->
 
 def get_edge_in_edges(v1: Vertice, v2: Vertice, graph: Graph) -> Union[Edge, WeightedEdge]:
     for edge in graph.edges:
-        if Edge(v1, v2) == edge:
+        if Edge(v1.clone(), v2.clone()) == edge:
             return edge
     return None
 
