@@ -212,8 +212,8 @@ if __name__ == '__main__':
     v3 = Vertice(2, 'v3')
     v4 = Vertice(3, 'v4')
     vertices = [v1, v2, v3, v4]
-    edges = [WeightedEdge(v1, v2, 80), WeightedEdge(v2, v3, 10),
-             WeightedEdge(v1, v3, 100000), WeightedEdge(v3, v4, 2)]
+    edges = [WeightedEdge(v1, v2, 1), WeightedEdge(v4, v2, 10),
+             WeightedEdge(v1, v3, 4), WeightedEdge(v4, v3, 3)]
     g1 = Graph(vertices, edges)
 
     print(jason_shortest_path_algorithm(v1, v4, g1))

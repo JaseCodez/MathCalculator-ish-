@@ -33,8 +33,12 @@ class Edge:
     v2: Vertice
 
     def __init__(self, v1: Vertice, v2: Vertice):
-        self.v1 = v1
-        self.v2 = v2
+        if v1.index < v2.index:
+            self.v1 = v1
+            self.v2 = v2
+        else:
+            self.v1 = v2
+            self.v2 = v1
         self.v1.add_degree(1)
         self.v2.add_degree(1)
 
