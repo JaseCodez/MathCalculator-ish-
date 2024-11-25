@@ -181,16 +181,21 @@ def jason_shortest_path_algorithm(start: Vertice, end: Vertice, graph: Graph) ->
     shortest = ('', inf)
     for vertice in graph.vertices:
         temp = get_edge_in_edges(start, vertice, graph)
+
         recursive = None
         if temp is not None and temp.v1.index == start.index:
+            graph.edges.remove(temp)
             recursive = jason_shortest_path_algorithm(temp.v2, end, graph)
 
         elif temp is not None and temp.v2.index == start.index:
+            graph.edges.remove(temp)
             recursive = jason_shortest_path_algorithm(temp.v1, end, graph)
 
         if recursive is not None and temp is not None:
+            graph.edges.append(temp)
             if shortest[1] > recursive[1] + temp.weight:
                 shortest = start.name + "-" + recursive[0], recursive[1] + temp.weight
+
     return shortest
 
 
@@ -207,7 +212,8 @@ if __name__ == '__main__':
     v3 = Vertice(2, 'v3')
     v4 = Vertice(3, 'v4')
     vertices = [v1, v2, v3, v4]
-    edges = [WeightedEdge(v1, v2, 1), WeightedEdge(v1, v3, 3),  WeightedEdge(v3, v4, 2), WeightedEdge(v2, v4, 8)]
+    edges = [WeightedEdge(v1, v2, 80), WeightedEdge(v2, v3, 10),
+             WeightedEdge(v1, v3, 100000), WeightedEdge(v3, v4, 2)]
     g1 = Graph(vertices, edges)
 
     print(jason_shortest_path_algorithm(v1, v4, g1))
