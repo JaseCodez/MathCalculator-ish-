@@ -40,6 +40,14 @@ class Edge:
         return non_sym or sym
 
 
+class WeightedEdge(Edge):
+    weight: int
+
+    def __init__(self, v1: Vertice, v2: Vertice, weight: int):
+        Edge.__init__(self, v1, v2)
+        self.weight = weight
+
+
 def merge_sort(lst: list[Vertice]):
     if len(lst) <= 1:
         return lst
@@ -49,14 +57,6 @@ def merge_sort(lst: list[Vertice]):
     left = merge_sort(left)
     right = merge_sort(right)
     return merge(left, right)
-
-
-class WeightedEdge(Edge):
-    weight: int
-
-    def __init__(self, v1: Vertice, v2: Vertice, weight: int):
-        Edge.__init__(v1, v2)
-        self.weight = weight
 
 
 def merge(lst1: list[Vertice], lst2: list[Vertice]) -> list:

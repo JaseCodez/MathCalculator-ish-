@@ -3,7 +3,9 @@ Author: Jason Phan
 Does some graph stuff
 Another silly program
 """
-from GraphTheoryDefinition import Graph, Vertice, Edge
+from GraphTheoryDefinition import Graph, Vertice, Edge, WeightedEdge
+from typing import Any, Optional, Union
+from math import inf
 
 
 def graph_to_matrix(graph: Graph) -> list[list[int]]:
@@ -162,14 +164,50 @@ def is_bipartite(graph: Graph) -> bool:
     pass
 
 
+def jason_shortest_path_algorithm(start: Vertice, end: Vertice, graph: Graph) -> tuple[str, int]:
+    """
+    Assuming that start and end are vertices in graph, and there exist a path from start to end.
+    This function is recursive.
+    :param start:
+    :param end:
+    :param graph:
+    :return:
+    """
+    # Base Case
+    temp = get_edge_in_edges(start, end, graph)
+    if temp is not None:
+        return temp.v1.name + "-" + temp.v2.name, temp.weight
+    # Recursive Case
+    shortest = ('', inf)
+    for vertice in graph.vertices:
+        temp = get_edge_in_edges(start, vertice, graph)
+        recursive = None
+        if temp is not None and temp.v1.index == start.index:
+            recursive = jason_shortest_path_algorithm(temp.v2, end, graph)
+
+        elif temp is not None and temp.v2.index == start.index:
+            recursive = jason_shortest_path_algorithm(temp.v1, end, graph)
+
+        if recursive is not None and temp is not None:
+            if shortest[1] > recursive[1] + temp.weight:
+                shortest = start.name + "-" + recursive[0], recursive[1] + temp.weight
+    return shortest
+
+
+def get_edge_in_edges(v1: Vertice, v2: Vertice, graph: Graph) -> Union[Edge, WeightedEdge]:
+    for edge in graph.edges:
+        if Edge(v1, v2) == edge:
+            return edge
+    return None
+
+
 if __name__ == '__main__':
-    v1 = Vertice(2, "u")
-    v2 = Vertice(1, "v")
-    v3 = Vertice(4, '3')
-    v4 = Vertice(3, 'k')
-    vertices = [v3, v1, v2, v4]
-    edges = [Edge(v1, v2), Edge(v3, v4), Edge(v2, v3), Edge(v1, v4)]
+    v1 = Vertice(0, "v1")
+    v2 = Vertice(1, "v2")
+    v3 = Vertice(2, 'v3')
+    v4 = Vertice(3, 'v4')
+    vertices = [v1, v2, v3, v4]
+    edges = [WeightedEdge(v1, v2, 1), WeightedEdge(v1, v3, 3),  WeightedEdge(v3, v4, 2), WeightedEdge(v2, v4, 8)]
     g1 = Graph(vertices, edges)
 
-    print(graph_to_matrix(g1))
-    print(graph_to_matrix(matrix_to_graph(graph_to_matrix(g1))))
+    print(jason_shortest_path_algorithm(v1, v4, g1))
