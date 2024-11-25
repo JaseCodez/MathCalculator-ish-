@@ -174,9 +174,10 @@ def jason_shortest_path_algorithm(start: Vertice, end: Vertice, graph: Graph) ->
     :return:
     """
     # Base Case
-    temp = get_edge_in_edges(start, end, graph)
-    if temp is not None:
-        return temp.v1.name + "-" + temp.v2.name, temp.weight
+    base_temp = get_edge_in_edges(start, end, graph)
+    if base_temp is not None and start.degree == 1:
+        return base_temp.v1.name + "-" + base_temp.v2.name, base_temp.weight
+
     # Recursive Case
     shortest = ('', inf)
     for vertice in graph.vertices:
@@ -185,16 +186,26 @@ def jason_shortest_path_algorithm(start: Vertice, end: Vertice, graph: Graph) ->
         recursive = None
         if temp is not None and temp.v1.index == start.index:
             graph.edges.remove(temp)
+            temp.v1.degree -= 1
+            temp.v2.degree -= 1
             recursive = jason_shortest_path_algorithm(temp.v2, end, graph)
 
         elif temp is not None and temp.v2.index == start.index:
             graph.edges.remove(temp)
+            temp.v1.degree -= 1
+            temp.v2.degree -= 1
             recursive = jason_shortest_path_algorithm(temp.v1, end, graph)
 
         if recursive is not None and temp is not None:
             graph.edges.append(temp)
+            temp.v1.degree += 1
+            temp.v2.degree += 1
             if shortest[1] > recursive[1] + temp.weight:
                 shortest = start.name + "-" + recursive[0], recursive[1] + temp.weight
+
+    if base_temp is not None:
+        if base_temp.weight < shortest[1]:
+            return base_temp.v1.name + "-" + base_temp.v2.name, base_temp.weight
 
     return shortest
 
@@ -210,10 +221,9 @@ if __name__ == '__main__':
     v1 = Vertice(0, "v1")
     v2 = Vertice(1, "v2")
     v3 = Vertice(2, 'v3')
-    v4 = Vertice(3, 'v4')
-    vertices = [v1, v2, v3, v4]
-    edges = [WeightedEdge(v1, v2, 1), WeightedEdge(v4, v2, 10),
-             WeightedEdge(v1, v3, 4), WeightedEdge(v4, v3, 3)]
+    vertices = [v1, v2, v3]
+    edges = [WeightedEdge(v1, v2, 2), WeightedEdge(v2, v3, 3), WeightedEdge(v1, v3, 10)]
     g1 = Graph(vertices, edges)
 
-    print(jason_shortest_path_algorithm(v1, v4, g1))
+    print(jason_shortest_path_algorithm(v1, v3, g1))
+
