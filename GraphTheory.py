@@ -3,7 +3,7 @@ Author: Jason Phan
 Does some graph stuff
 Another silly program
 """
-from GraphTheoryDefinition import Graph, Vertice, Edge, WeightedEdge
+from GraphTheoryDefinition import Graph, Vertex, Edge, WeightedEdge
 from typing import Any, Optional, Union
 from math import inf
 
@@ -25,7 +25,7 @@ def graph_to_matrix(graph: Graph) -> list[list[int]]:
 def matrix_to_graph(matrix: list[list[int]]) -> Graph:
     vertices = []
     for i in range(len(matrix)):
-        vertices.append(Vertice(i, "v" + str(i + 1)))
+        vertices.append(Vertex(i, "v" + str(i + 1)))
 
     edges = []
     for i in range(len(matrix)):
@@ -45,14 +45,14 @@ def is_an_edge(e: Edge, edges: list[Edge]) -> bool:
     return False
 
 
-def exist_a_path(start: Vertice, end: Vertice, graph: Graph) -> bool:
+def exist_a_path(start: Vertex, end: Vertex, graph: Graph) -> bool:
     if start is end:
         return True
 
     # populate visited dictionary with vertices
     visited = {}
-    for vertice in graph.vertices:
-        visited[vertice.index] = []
+    for vertex in graph.vertices:
+        visited[vertex.index] = []
 
     # things
     degree = 0
@@ -85,7 +85,7 @@ def exist_a_path(start: Vertice, end: Vertice, graph: Graph) -> bool:
     return False
 
 
-def vertice_degree(v1: Vertice, graph: Graph) -> int:
+def vertex_degree(v1: Vertex, graph: Graph) -> int:
     count = 0
     for edge in graph.edges:
         if v1.index == edge.v1.index or v1.index == edge.v2.index:
@@ -114,15 +114,15 @@ def complement_graph(graph: Graph) -> Graph:
 
 
 def is_euclidean(graph: Graph) -> bool:
-    for vertice in graph.vertices:
-        if vertice.degree % 2 != 0:
+    for vertex in graph.vertices:
+        if vertex.degree % 2 != 0:
             return False
     return is_connected_graph(graph)
 
 
 def is_subgraph(sub: Graph, parent: Graph) -> bool:
     for v in sub.vertices:
-        if not is_a_vertice(v, parent.vertices):
+        if not is_a_vertex(v, parent.vertices):
             return False
     for edge in sub.edges:
         if not is_an_edge(edge, parent.edges):
@@ -130,9 +130,9 @@ def is_subgraph(sub: Graph, parent: Graph) -> bool:
     return True
 
 
-def is_a_vertice(vertice: Vertice, vertices: list[Vertice]) -> bool:
+def is_a_vertex(vertex: Vertex, vertices: list[Vertex]) -> bool:
     for v in vertices:
-        if vertice == v:
+        if vertex == v:
             return True
     return False
 
@@ -154,8 +154,8 @@ def is_a_K_graph(graph: Graph) -> bool:
 
 
 def is_cycle_graph(graph: Graph) -> bool:
-    for vertice in graph.vertices:
-        if vertice.degree != 2: 
+    for vertex in graph.vertices:
+        if vertex.degree != 2:
             return False
     return is_connected_graph(graph)
 
@@ -164,7 +164,7 @@ def is_bipartite(graph: Graph) -> bool:
     pass
 
 
-def jason_shortest_path_algorithm(start: Vertice, end: Vertice, graph: Graph) -> tuple[str, int]:
+def jason_shortest_path_algorithm(start: Vertex, end: Vertex, graph: Graph) -> tuple[str, int]:
     """
     Assuming that start and end are vertices in graph, and there exist a path from start to end.
     This function is recursive.
@@ -210,7 +210,7 @@ def jason_shortest_path_algorithm(start: Vertice, end: Vertice, graph: Graph) ->
     return shortest
 
 
-def get_edge_in_edges(v1: Vertice, v2: Vertice, graph: Graph) -> Union[Edge, WeightedEdge]:
+def get_edge_in_edges(v1: Vertex, v2: Vertex, graph: Graph) -> Union[Edge, WeightedEdge]:
     for edge in graph.edges:
         if Edge(v1.clone(), v2.clone()) == edge:
             return edge
@@ -218,9 +218,9 @@ def get_edge_in_edges(v1: Vertice, v2: Vertice, graph: Graph) -> Union[Edge, Wei
 
 
 if __name__ == '__main__':
-    v1 = Vertice(0, "v1")
-    v2 = Vertice(1, "v2")
-    v3 = Vertice(2, 'v3')
+    v1 = Vertex(0, "v1")
+    v2 = Vertex(1, "v2")
+    v3 = Vertex(2, 'v3')
     vertices = [v1, v2, v3]
     edges = [WeightedEdge(v1, v2, 2), WeightedEdge(v2, v3, 3), WeightedEdge(v1, v3, 10)]
     g1 = Graph(vertices, edges)

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 
-class Vertice:
+class Vertex:
     index: int
     name: str
     degree: int
