@@ -28,4 +28,15 @@ def is_prime(p: int) -> bool:
     return True
 
 
-print(phi_function(9900))
+def gcd(p: int, q: int) -> int:
+    n = 1
+    i = 2
+    while i <= p and i <= q:
+        if p % i == 0 and q % i == 0:
+            n = i
+        i += 1
+    return n
+
+
+if __name__ == '__main__':
+    print(gcd(2, 10))
