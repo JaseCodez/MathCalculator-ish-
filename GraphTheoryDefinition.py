@@ -23,16 +23,16 @@ class Vertex:
     def __eq__(self, other):
         return self.index == other.index and self.name == other.name
 
-    def clone(self) -> Vertice:
+    def clone(self) -> Vertex:
         """Avoid aliasing"""
-        return Vertice(self.index, self.name)
+        return Vertex(self.index, self.name)
 
 
 class Edge:
-    v1: Vertice
-    v2: Vertice
+    v1: Vertex
+    v2: Vertex
 
-    def __init__(self, v1: Vertice, v2: Vertice):
+    def __init__(self, v1: Vertex, v2: Vertex):
         if v1.index < v2.index:
             self.v1 = v1
             self.v2 = v2
@@ -51,12 +51,12 @@ class Edge:
 class WeightedEdge(Edge):
     weight: int
 
-    def __init__(self, v1: Vertice, v2: Vertice, weight: int):
+    def __init__(self, v1: Vertex, v2: Vertex, weight: int):
         Edge.__init__(self, v1, v2)
         self.weight = weight
 
 
-def merge_sort(lst: list[Vertice]):
+def merge_sort(lst: list[Vertex]):
     if len(lst) <= 1:
         return lst
     left = lst[len(lst) // 2:]
@@ -67,7 +67,7 @@ def merge_sort(lst: list[Vertice]):
     return merge(left, right)
 
 
-def merge(lst1: list[Vertice], lst2: list[Vertice]) -> list:
+def merge(lst1: list[Vertex], lst2: list[Vertex]) -> list:
     i = 0
     x = 0
     new_lst = []
@@ -87,10 +87,10 @@ def merge(lst1: list[Vertice], lst2: list[Vertice]) -> list:
 
 
 class Graph:
-    vertices: list[Vertice]
+    vertices: list[Vertex]
     edges: list[Edge]
 
-    def __init__(self, vertices: list[Vertice], edges: list[Edge]):
+    def __init__(self, vertices: list[Vertex], edges: list[Edge]):
         self.vertices = vertices.copy()
         self.edges = edges.copy()
         self.sort()
