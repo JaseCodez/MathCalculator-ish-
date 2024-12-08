@@ -38,5 +38,12 @@ def gcd(p: int, q: int) -> int:
     return n
 
 
+def convert_to_binary(n: int) -> str:
+    """Does this count as number theory? I have no clue"""
+    if n < 2:
+        return str(n)
+    return convert_to_binary(n // 2) + str(n % 2)
+
+
 if __name__ == '__main__':
-    print(gcd(2, 10))
+    print(phi_function(259))
