@@ -27,6 +27,30 @@ def is_valid_binary(s: str) -> bool:
 
 def add_binary(n1: str, n2: str) -> str:
     if len(n1) < len(n2):
-        n1 += '0' * (len(n2) - len(n1))
-    elif len(n2) > len(n1):
-        n2 += '0' * (len(n1) - len(n2))
+        n1 = '0' * (len(n2) - len(n1)) + n1
+    elif len(n1) > len(n2):
+        n2 = '0' * (len(n1) - len(n2)) + n2
+
+    remainder = 0
+    new_bin = ''
+    for i in range(len(n1) - 1, -1, -1):
+        if n1[i] == '0' and n2[i] == '0':
+            if remainder == 0:
+                new_bin = '0' + new_bin
+            else:
+                new_bin = '1' + new_bin
+                remainder = 0
+        elif n1[i] == '1' and n2[i] == '1':
+            if remainder == 1:
+                new_bin = '1' + new_bin
+            else:
+                new_bin = '0' + new_bin
+                remainder = 1
+        else:
+            new_bin = '1' + new_bin
+    if remainder == 1:
+        new_bin = '1' + new_bin
+    return new_bin
+
+
+print(add_binary('111', '111'))
