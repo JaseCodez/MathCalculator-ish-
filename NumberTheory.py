@@ -38,20 +38,5 @@ def gcd(p: int, q: int) -> int:
     return n
 
 
-def convert_from_dec_to_binary(n: int) -> str:
-    """Does this count as number theory? I have no clue"""
-    if n < 2:
-        return str(n)
-    return convert_from_dec_to_binary(n // 2) + str(n % 2)
-
-
-def convert_from_binary_to_dec(s: str) -> int:
-    n = 0
-    for i in range(len(s) - 1, -1, -1):
-        if s[i] == "1":
-            n += 2**(len(s) - i - 1)
-    return n
-
-
 if __name__ == '__main__':
-    print(convert_from_binary_to_dec(convert_from_dec_to_binary(120)))
+    print(gcd(10, 5))
