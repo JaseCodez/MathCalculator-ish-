@@ -53,4 +53,19 @@ def add_binary(n1: str, n2: str) -> str:
     return new_bin
 
 
-print(add_binary('111', '111'))
+def twos_complement(bin: str) -> str:
+    return add_binary(binary_not(bin), '1')
+
+
+def binary_not(bin: str) -> str:
+    new_bin = ''
+    for s in bin:
+        if s == '1':
+            new_bin += '0'
+        else:
+            new_bin += '1'
+    return new_bin
+
+
+if __name__ == '__main__':
+    print(twos_complement('1001'))

@@ -242,6 +242,7 @@ class Multiplication(Operator):
     def __str__(self):
         return f"({self.a} * {self.b})"
 
+
 class Division(Operator):
     """
     Class representing the division of two functions
@@ -269,6 +270,7 @@ class Division(Operator):
     def __str__(self):
         """Return a string representation of the division"""
         return f"({self.a} / {self.b})"
+
 
 class Exponential(Operator):
     # Class for the exponential of a function
