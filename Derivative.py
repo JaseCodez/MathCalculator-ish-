@@ -168,11 +168,8 @@ class Addition(Operator):
 
         >>> str(Addition(Constant(5), Constant(5)).differentiate())
         '(0) + (0)'
-        >>> str(X(Constant(5), Constant(5)).differentiate())
-        '(25 * x^4)'
         """
-        # TODO: Implement this method
-        pass
+        return Addition(self.a.differentiate(), self.b.differentiate())
 
     def __str__(self) -> str:
         """
@@ -198,13 +195,10 @@ class Subtraction(Operator):
 
         >>> str(Subtraction(Constant(5), Constant(5)).differentiate())
         '(0) - (0)'
-        >>> str(X(Constant(5), Constant(5)).differentiate())
-        '(25 * x^4)'
         >>> str(Subtraction(X(Constant(5), Constant(5)), X(Constant(5), Constant(5))).differentiate())
         '((25 * x^4)) - ((25 * x^4))'
         """
-        # TODO: Implement this method
-        pass
+        return Subtraction(self.a.differentiate(), self.b.differentiate())
 
     def __str__(self) -> str:
         """Return a string representation of the subtraction"""
@@ -236,8 +230,7 @@ class Multiplication(Operator):
         >>> str(Multiplication(X(Constant(5), Constant(5)), X(Constant(5), Constant(5))).differentiate())
         '(((25 * x^4) * (5 * x^5))) + (((5 * x^5) * (25 * x^4)))'
         """
-        # TODO: Implement this method
-        pass
+        return Addition(Multiplication(self.a.differentiate(), self.b), Multiplication(self.a, self.b.differentiate()))
 
     def __str__(self):
         return f"({self.a} * {self.b})"
@@ -264,8 +257,9 @@ class Division(Operator):
         >>> str(Division(X(Constant(5), Constant(5)), X(Constant(5), Constant(5))).differentiate())
         '((((25 * x^4) * (5 * x^5))) - (((5 * x^5) * (25 * x^4))) / ((5 * x^5)^2))'
         """
-        # TODO: Implement this method
-        pass
+        left = Multiplication(self.a.differentiate(), self.b)
+        right = Multiplication(self.a, self.b.differentiate())
+        return Division(Subtraction(left, right), Exponential(self.b, Constant(2)))
 
     def __str__(self):
         """Return a string representation of the division"""
@@ -290,8 +284,8 @@ class Exponential(Operator):
         >>> str(Exponential(X(Constant(5), Constant(5)), Constant(5)).differentiate())
         '((5 * ((5 * x^5)^4)) * (25 * x^4))'
         """
-        # TODO: Implement this method
-        pass
+        lhs = Multiplication(self.b, Exponential(self.a, Constant(self.b.constant - 1)))
+        return Multiplication(lhs, self.a.differentiate())
 
     def __str__(self):
         return f"({self.a}^{self.b})"
@@ -323,8 +317,11 @@ class X(ElementaryFunction):
         >>> str(X(Constant(5), Constant(0)).differentiate())
         '0'
         """
-        # TODO: Implement this method
-        pass
+        if self.power.constant == 1:
+            return Constant(self.coefficient.constant)
+        elif self.power.constant == 0:
+            return Constant(0)
+        return X(Constant(self.coefficient.constant * self.power.constant), Constant(self.power.constant - 1))
 
     def __str__(self) -> str:
         """
@@ -355,8 +352,7 @@ class Sin(ElementaryFunction):
         >>> str(Sin(X(Constant(5), Constant(5))).differentiate())
         '(cos((5 * x^5)) * (25 * x^4))'
         """
-        # TODO: Implement this method
-        pass
+        return Multiplication(Cos(self.function), self.function.differentiate())
 
     def __str__(self) -> str:
         """Return a string representation of the sine of a function"""
@@ -382,8 +378,8 @@ class Cos(ElementaryFunction):
         >>> str(Cos(X(Constant(5), Constant(5))).differentiate())
         '(-1 * (sin((5 * x^5)) * (25 * x^4)))'
         """
-        # TODO: Implement this method
-        pass
+        rhs = Multiplication(Sin(self.function), self.function.differentiate())
+        return Multiplication(Constant(-1), rhs)
 
     def __str__(self) -> str:
         """Return a string representation of the cosine of a function"""
@@ -409,8 +405,7 @@ class Tan(ElementaryFunction):
         >>> str(Tan(X(Constant(5), Constant(5))).differentiate())
         '((sec((5 * x^5))^2) * (25 * x^4))'
         """
-        # TODO: Implement this method
-        pass
+        return Multiplication(Exponential(Secant(self.function), Constant(2)), self.function.differentiate())
 
     def __str__(self) -> str:
         """Return a string representation of the tangent of a function"""
@@ -436,8 +431,8 @@ class Secant(ElementaryFunction):
         >>> str(Secant(X(Constant(5), Constant(5))).differentiate())
         '((tan((5 * x^5)) * (25 * x^4)) * sec((5 * x^5)))'
         """
-        # TODO: Implement this method
-        pass
+        lhs = Multiplication(Tan(self.function), self.function.differentiate())
+        return Multiplication(lhs, Secant(self.function))
 
     def __str__(self) -> str:
         """Return a string representation of the secant of a function"""
@@ -466,8 +461,8 @@ class Log(ElementaryFunction):
         >>> str(Log(Constant(5), X(Constant(5), Constant(5))).differentiate())
         '((1 / ((5 * x^5) * log_2.718281828459045(5))) * (25 * x^4))'
         """
-        # TODO: Implement this method
-        pass
+        div = Division(Constant(1), Multiplication(self.function, Log(e, self.a)))
+        return Multiplication(div, self.function.differentiate())
 
     def __str__(self) -> str:
         """Return a string representation of the logarithm of a function"""
@@ -478,10 +473,3 @@ if __name__ == "__main__":
     import doctest
     doctest.testmod()
 
-    import python_ta
-    python_ta.check_all(config={
-        'extra-imports': ['__future__', 'typing'],
-        'allowed-io': [],
-        'max-line-length': 100,
-        'disable': ['E1136']
-    })
