@@ -1,6 +1,7 @@
 # Abstract Syntax Tree
 from __future__ import annotations
 from typing import Union
+import re
 
 
 class Expr:
@@ -42,6 +43,7 @@ class Exponent(Expr):
 
 
 class Operand(Expr):
+
     a: Expr
     b: Expr
 
@@ -54,6 +56,21 @@ class Operand(Expr):
 
     def __str__(self):
         raise NotImplementedError
+
+    def setA(self, a: Expr):
+        self.a = a
+
+    def setB(self, b: Expr):
+        self.b = b
+
+
+class DirectSum(Operand):
+
+    def __init__(self, a: Expr, b: Expr):
+        Operand.__init__(self, a, b)
+
+    def solve(self) -> Expr:
+        return self.a
 
 
 class AddOp(Operand):
@@ -135,18 +152,69 @@ class DivOp(Operand):
 class Equation:
     lhs: Expr
     rhs: Expr
+    reg: str
 
     def __init__(self, lhs: Expr, rhs: Expr):
         self.lhs = lhs
         self.rhs = rhs
+        self.reg = r'((\d*x+|\d)[+\-\/*]?)*((\d*x+|\d))=((\d*x+|\d)[+\-\/*]?)*((\d*x+|\d))'
 
     def solve(self) -> Equation:
         """
-        >>> str(Equation(AddOp(Constant(1), Constant(2)), Exponent(1, 1)).solve())
-        '3 = 1x^1'
+        Assume the given input is in the form: y = mx + b
+        solving for x
         """
         return Equation(self.lhs.solve(), self.rhs.solve())
+
+    def parse(self, s: str) -> None:
+        """
+        Parse the string representation of the equation
+
+        example: 2x - 3 + x + 4 = 5
+        will be parsed as
+        For LHS: ['2x', '-3', 'x', '4']
+        For RHS: ['5']
+        """
+        s = s.strip()
+        s = s.replace(' ', '')
+        match = re.match(self.reg, s)
+        if match:
+            lst = s.split('=')
+            lhs, rhs = convert_linear(lst[0]), convert_linear(lst[1])
+
 
     def __str__(self):
         return f'{str(self.lhs)} = {str(self.rhs)}'
 
+
+def convert_linear(s: str) -> str:
+    operations = '+-/*'
+    poly = []
+    str_builder = ''
+    for ch in s:
+        if ch in operations:
+            poly.append(str_builder)
+            str_builder = ch
+        else:
+            str_builder += ch
+    poly.append(str_builder)
+
+    num = 0
+    coefficient = 0
+    # Haven't considered * and /
+    for n in poly:
+        if 'x' not in n:
+            num += int(n)
+        else:
+            coefficient += int(n[:n.find('x')])
+    if coefficient > 0:
+        return f'{num}+{coefficient}x'
+    return f'{num}{coefficient}x'
+
+
+def exprFactory(s: str) -> Expr:
+    pass
+
+
+if __name__ == '__main__':
+    print(convert_linear('2x+3-4+6'))

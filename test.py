@@ -1,4 +1,6 @@
-import LinearAlgebra as Lin
+import numpy as np
 
-matrix = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
-print(Lin.determinant(matrix))
+
+print(np.roots([2, 1]))
+
+
