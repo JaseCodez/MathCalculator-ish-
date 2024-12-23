@@ -50,15 +50,17 @@ def euclidean_algorithm(a: int, b: int) -> dict[int, tuple[int, int, int]]:
 
                     a = qb + r,    q >= 0, 0 <= r < b
 
-    :return key as dividend a with values q as quotient, b
-    as divisor and remainder r.
-    {a: (q, b, r)}
-    """
-    if a % b == 1:
-        return {a: ((a - 1) // b, b, 1)}
+    :return key as remainder "r" with the associate values
+    "b" as divisor, "q" as quotient and "a" as dividend.
 
-    d = {a: ((a - a % b) // b, b, a % b)}
-    d.update(euclidean_algorithm(d[a][1], d[a][2]))
+    {r: (b, q, a)}
+    """
+    r = a % b
+    if r == 1:
+        return {r: (b, (a - r) // b, a)}
+
+    d = {r: (b, (a - r) // b, a)}
+    d.update(euclidean_algorithm(d[r][0], r))
     return d
 
 
