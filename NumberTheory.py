@@ -38,10 +38,11 @@ def gcd(p: int, q: int) -> int:
     return n
 
 
-def euclidean_algorithm(a: int, b: int) -> dict[int, tuple[int, int, int]]:
+def euclidean_algorithm(a: int, b: int) -> dict[int, list[int]]:
     """
     Assume a > b
 
+    My GOAT TJ
     https://tjyusun.com/mat202/sec-integers-divisibility
     Theorem 1.3.2. Division Algorithm.
 
@@ -57,16 +58,18 @@ def euclidean_algorithm(a: int, b: int) -> dict[int, tuple[int, int, int]]:
     """
     r = a % b
     if r == 1:
-        return {r: (b, (a - r) // b, a)}
+        return {r: [b, (a - r) // b, a]}
 
-    d = {r: (b, (a - r) // b, a)}
+    d = {r: [b, (a - r) // b, a]}
     d.update(euclidean_algorithm(d[r][0], r))
     return d
 
 
 def inverse_modulo(x: int, y: int) -> dict[int, int]:
-    pass
+    """Assume x > y"""
+    euc = euclidean_algorithm(x, y)
+    d = {1: [i for i in euc[1]]}  # a = qb + r, in this form it will be r = a - q * b
 
 
 if __name__ == '__main__':
-    print(euclidean_algorithm(101, 44))
+    inverse_modulo(101, 44)
