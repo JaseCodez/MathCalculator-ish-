@@ -38,5 +38,33 @@ def gcd(p: int, q: int) -> int:
     return n
 
 
+def euclidean_algorithm(a: int, b: int) -> dict[int, tuple[int, int, int]]:
+    """
+    Assume a > b
+
+    https://tjyusun.com/mat202/sec-integers-divisibility
+    Theorem 1.3.2. Division Algorithm.
+
+    Let a, b be Naturals. Then there exist a unique q and r
+    that satisfy all of the following:
+
+                    a = qb + r,    q >= 0, 0 <= r < b
+
+    :return key as dividend a with values q as quotient, b
+    as divisor and remainder r.
+    {a: (q, b, r)}
+    """
+    if a % b == 1:
+        return {a: ((a - 1) // b, b, 1)}
+
+    d = {a: ((a - a % b) // b, b, a % b)}
+    d.update(euclidean_algorithm(d[a][1], d[a][2]))
+    return d
+
+
+def inverse_modulo(x: int, y: int) -> dict[int, int]:
+    pass
+
+
 if __name__ == '__main__':
-    print(gcd(10, 5))
+    print(euclidean_algorithm(101, 44))
