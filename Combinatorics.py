@@ -53,10 +53,9 @@ def powerset(lst):
             if temp not in x:
                 x.append(temp[:])
             temp.pop(i)
-            x.extend(powerset(temp))
-
-        if [] in x:
-            x.remove([])
+            for t in powerset(temp):
+                if t not in x:
+                    x.append(t)
 
         return x
 
