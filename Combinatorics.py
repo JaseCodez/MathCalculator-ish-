@@ -43,5 +43,23 @@ def number_of_string_arrangements(s: str) -> int:
     return n
 
 
+def powerset(lst):
+    if not lst:
+        return [[]]
+    else:
+        x = []
+        for i in range(len(lst)):
+            temp = lst[:]
+            if temp not in x:
+                x.append(temp[:])
+            temp.pop(i)
+            x.extend(powerset(temp))
+
+        if [] in x:
+            x.remove([])
+
+        return x
+
+
 if __name__ == '__main__':
-    print(number_of_string_arrangements('hello'))
+    print(powerset([1, 2, 3]))
