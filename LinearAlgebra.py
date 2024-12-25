@@ -112,3 +112,6 @@ def magnitude(vector: list[int]) -> int:
 def rref(matrix: list[list[int]]) -> list[list[int]]:
     pass
 
+
+if __name__ == '__main__':
+    print(matrix_mult([[1, 1], [1, 0]], [[13], [8]]))

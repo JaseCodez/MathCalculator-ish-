@@ -57,10 +57,9 @@ def euclidean_algorithm(a: int, b: int) -> dict[int, list[int]]:
     {r: (b, q, a)}
     """
     r = a % b
-    if r == 1:
-        return {r: [b, (a - r) // b, a]}
-
     d = {r: [b, (a - r) // b, a]}
+    if r == 0:
+        return d
     d.update(euclidean_algorithm(d[r][0], r))
     return d
 
@@ -72,4 +71,4 @@ def inverse_modulo(x: int, y: int) -> dict[int, int]:
 
 
 if __name__ == '__main__':
-    inverse_modulo(101, 44)
+    print(euclidean_algorithm(101, 44))
