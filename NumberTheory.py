@@ -17,17 +17,6 @@ def phi_function(p: int) -> int:
     return phi
 
 
-def is_prime(p: int) -> bool:
-    if p == 1:
-        return False
-    elif p == 2:
-        return True
-    for i in range(2, p-1):
-        if p % i == 0:
-            return False
-    return True
-
-
 def gcd(p: int, q: int) -> int:
     n = 1
     i = 2
@@ -51,7 +40,7 @@ def euclidean_algorithm(a: int, b: int) -> dict[int, list[int]]:
 
                     a = qb + r,    q >= 0, 0 <= r < b
 
-    :return key as remainder "r" with the associate values
+    :return: key as remainder "r" with the associate values
     "b" as divisor, "q" as quotient and "a" as dividend.
 
     {r: (b, q, a)}
@@ -64,6 +53,16 @@ def euclidean_algorithm(a: int, b: int) -> dict[int, list[int]]:
     return d
 
 
+def is_prime(p: int) -> bool:
+    if p == 1:
+        return False
+    elif p == 2:
+        return True
+    for i in range(2, p-1):
+        if p % i == 0:
+            return False
+    return True
+
 def inverse_modulo(x: int, y: int) -> dict[int, int]:
     """Assume x > y"""
     euc = euclidean_algorithm(x, y)
@@ -71,4 +70,4 @@ def inverse_modulo(x: int, y: int) -> dict[int, int]:
 
 
 if __name__ == '__main__':
-    print(euclidean_algorithm(101, 44))
+    pass
