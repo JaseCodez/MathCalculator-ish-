@@ -47,7 +47,10 @@ def add_binary(n1: str, n2: str) -> str:
                 new_bin = '0' + new_bin
                 remainder = 1
         else:
-            new_bin = '1' + new_bin
+            if remainder == 1:
+                new_bin = '0' + new_bin
+            else:
+                new_bin = '1' + new_bin
     if remainder == 1:
         new_bin = '1' + new_bin
     return new_bin
@@ -68,4 +71,4 @@ def binary_not(bin: str) -> str:
 
 
 if __name__ == '__main__':
-    print(twos_complement('1001'))
+    print(add_binary('11', '10'))
