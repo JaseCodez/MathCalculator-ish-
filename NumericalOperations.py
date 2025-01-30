@@ -1,3 +1,6 @@
+import re
+
+
 class Expr:
     def evaluate(self):
         raise NotImplementedError
@@ -77,6 +80,44 @@ class DivOp(Expr):
 
     def __str__(self):
         return f'({self.a} / {self.b})'
+
+
+class Token:
+    type: str
+
+    def __init__(self, type: str):
+        self.type = type
+
+
+# Parser
+class LexicalAnalysis:
+    s: str
+
+    def __init__(self, s: str):
+        self.s = s
+
+    def generate_tokens(self) -> list[Token]:
+        lst = []
+        for ch in self.s:
+            if ch in '+=/*':
+                lst.append(Token('OP'))
+            elif ch.isdigit():
+                lst.append(Token('NUM'))
+        return lst
+
+
+class SyntacticAnalysis:
+    pass
+
+
+class Parse:
+    s: str
+
+    def __init__(self, s: str):
+        self.s = s
+
+    def parse(self) -> Expr:
+        LexicalAnalysis(self.s)
 
 
 if __name__ == '__main__':
